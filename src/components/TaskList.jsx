@@ -1,14 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
-import {deleteTask} from '../features/tasks/taskSlice'
-import {Link} from 'react-router-dom'
+import { deleteTask, getTasks } from '../features/tasks/taskSlice'
+import { Link } from 'react-router-dom'
+import { useEffect } from 'react';
+
 function TaskList() {
 
   const tasks = useSelector(state => state.tasks);
-  const dispatch = useDispatch()
-
-  const handleDelete = (id) =>{
+  const dispatch = useDispatch();
+  const handleDelete = (id) => {
     dispatch(deleteTask(id))
   }
+
+  useEffect(() => {
+    dispatch(getTasks())
+  }, [])
 
   return (
     <div>
@@ -21,7 +26,7 @@ function TaskList() {
           <div key={task.id}>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
-            <button onClick={()=>handleDelete(task.id)}>Delete</button>
+            <button onClick={() => handleDelete(task.id)}>Delete</button>
             <Link to={`/edit-task/${task.id}`}>Edit</Link>
           </div>
         )

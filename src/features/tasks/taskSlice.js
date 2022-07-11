@@ -21,6 +21,15 @@ export const taskSlice = createSlice({
     reducers: {
         addTask: (state, action) => {
             state.push(action.payload)
+            localStorage.setItem('tasks', JSON.stringify(state)) 
+            
+        },
+        getTasks: (state, action) => {
+            state = action.payload
+            let data = localStorage.getItem('tasks')
+            if (data) {
+                state = JSON.parse(data)
+            }
         },
         deleteTask: (state, action) => {
             const taskFound = state.find(task => task.id === action.payload)
@@ -40,5 +49,5 @@ export const taskSlice = createSlice({
     }
 });
 
-export const { addTask, deleteTask, editTask } = taskSlice.actions
+export const { addTask, deleteTask, editTask, getTasks } = taskSlice.actions
 export default taskSlice.reducer
